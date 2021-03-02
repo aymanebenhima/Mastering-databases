@@ -23,7 +23,7 @@ Il ne reste plus à signifier que pour que chaque CD possède un genre (et pas n
 Voilà donc ce que cela donne :
 ![fig1](./assets/fig01.png)
 
-Cette représentation ne se lit pas n'importe comment. Pour être certain de ne pas commettre de contresens, lorsqu'on traduit le schéma ci-dessus, il vaut mieux éviter de dire « les disques possèdent des genres », ou pire encore « la table disque possède certains genres » La bonne traduction, celle qui vous évitera au maximum de commettre des erreurs, consiste à dire que « Chaque élément de la table Disques possède un (ou plusieurs ?) genres ». En prenant l'affaire par l'autre bout, on peut tout aussi bien dire (même si c'est un peu laid à l'oreille) : « Chaque genre est possédé par un (ou plusieurs ?) disques » (on verra un peu plus loin comment en avoir le cœur net sur ces points d'interrogation).
+Cette représentation ne se lit pas n'importe comment. Pour être certain de ne pas commettre de contresens, lorsqu'on traduit le schéma ci-dessus, il vaut mieux éviter de dire « les disques possèdent des genres », ou pire encore « la table disque possède certains genres » La bonne traduction, celle qui vous évitera au maximum de commettre des erreurs, consiste à dire que « __Chaque élément de la table Disques possède un (ou plusieurs ?) genres__ ». En prenant l'affaire par l'autre bout, on peut tout aussi bien dire (même si c'est un peu laid à l'oreille) : « Chaque genre est possédé par un (ou plusieurs ?) disques » (on verra un peu plus loin comment en avoir le cœur net sur ces points d'interrogation).
 
 Résumons-nous :
 
@@ -65,7 +65,7 @@ Tout système de bases de données impose dans chaque entité, chaque individu (
 
 Il est en fait assez rare de trouver spontanément une propriété capable de jouer ce rôle. Même les propriétés qui semblent faire de bonnes candidates (par exemple, une plaque d'immatriculation ou un numéro de sécurité sociale) ne sont pas forcément aussi opportuns qu'elles en ont l'air, pour un certain nombre de raisons. Et il n'est pas rare qu'aucune des propriétés présentes ne puisse nous prémunir contre les doublons ; c'est le cas avec l'entité Disques de notre exemple : plusieurs Cd peuvent très bien avoir le même titre, et je ne parle pas de l'auteur ni de l'année. On ne peut pas davantage exclure la possibilité que deux auteurs homonymes aient sorti la même année un disque portant le même titre (ce qui nous empêche donc d'avoir confiance dans une clé primaire constituée de la combinaison des trois propriétés).
 
-Voilà pourquoi le plus souvent, on sera amené à créer une *_propriété supplémentaire_* destinée uniquement à jouer le rôle d'indentifiant / clé primaire. Il s'agira presque toujours d'un code, unique pour chaque occurrence de l'entité (et voilà pourquoi un nombre de type « autoincrement » est si pratique). Ce code sera rarement visible par l'utilisateur, qui ignorera sans doute son existence : il n'en sera pas moins indispensable pour le système informatique. Ainsi, notre modèle de discothèque deviendra-t-il :
+Voilà pourquoi le plus souvent, on sera amené à créer une __propriété supplémentaire__ destinée uniquement à jouer le rôle d'indentifiant / clé primaire. Il s'agira presque toujours d'un code, unique pour chaque occurrence de l'entité (et voilà pourquoi un nombre de type « autoincrement » est si pratique). Ce code sera rarement visible par l'utilisateur, qui ignorera sans doute son existence : il n'en sera pas moins indispensable pour le système informatique. Ainsi, notre modèle de discothèque deviendra-t-il :
 
 ![fig 3](./assets/fig03.png)
 
@@ -130,7 +130,7 @@ C'est très logique : la table de jonction va permettre d'associer tout élémen
 
 Ce cas se divise à son tour en deux, selon la valeur de la cardinalité minimale concernée.
 
-1. On a une cardinalité (1, 1)
+1. __On a une cardinalité (1, 1)__
 Concrètement, cela veut dire, dans notre exemple, que chaque CD possède un genre et un seul. Un CD ne peut pas ne pas avoir de genre ; il ne peut pas non plus en avoir plusieurs. Dans ce cas, dans le MLD, cette relation devient une relation directe entre les deux tables. L'identifiant de la table côté « plusieurs » devient une nouvelle propriété de la table du côté « un », ainsi que l'illustre cet exemple :
 
 ![fig 6](./assets/fig06.png)
@@ -139,7 +139,7 @@ Quand on y réfléchit, c'est parfaitement logique : pour chaque disque, il faud
 
 Et, au passage, pour cette nouvelle propriété dans la table Disques qui contiendra une valeur prise par la clé primaire de la table Genre, on dit qu'il s'agit d'une **clé étrangère**.
 
-2. On a une cardinalité (0, 1)
+2. __On a une cardinalité (0, 1)__
 Remarque essentielle : le raisonnement qui suit concerne en réalité toute situation dans laquelle la cardinalité minimale est égale à zéro. Cela correspond à la situation où chaque CD peut avoir un genre (au maximum) mais où il n'est pas obligé d'en avoir un. Là, les informaticiens se divisent en deux catégories. Il y a les coulants (les autres préfèreront les appeler les laxistes), qui diront : « Faisons au plus simple. Il suffit de créer une clé étrangère ; lorsque le disque n'aura pas de genre attribué, la valeur de la clé étrangère sera vide. Après tout, il n'y a pas de mal à cela. » Au passage, une valeur vide, dans une base de données, s'appelle en jargon une valeur Null. À cela, l'autre catégorie d'informaticiens, beaucoup plus nombreuse, que sont les rigoureux (et que les premiers appelleront les psycho-rigides) rétorquent : « Certes, on peut avoir des valeurs Null dans une table. Mais ce n'est jamais une bonne chose. On ne sait pas, par exemple, si c'est un défaut de saisie ou une valeur volontaire. Et puis, quand on fera des recherches ou des traitements automatisés, cela risque de nous jouer de bien vilains tours. Il est donc nettement préférable de jouer la sécurité : il suffit de créer une table de jointure, exactement comme dans le cas d'une relation « plusieurs à plusieurs ». Dans ce cas, plus de Null ; en revanche, il faudra mettre en place un contrôle pour être certain que chaque disque n'apparaît pas plus d'une fois dans la table d'association...
 
 ## Relations multiples
@@ -155,6 +155,7 @@ Imaginons, par exemple, que nous ayons à modéliser les relations entre une pop
 * il peut en être bailleur
 * il peut l'occuper à titre de résidence principale
 * etc.
+
 Face à ce problème, la solution est simple : les deux entités Individus et Logements doivent être reliées simultanément par plusieurs relations différentes. On parle alors d'associations plurielles. Cette technique illustre, en quelque sorte à l'envers, la question de la transitivité : il peut y avoir plusieurs relations qui mènent d'une entité à l'autre, à condition que ces relations possèdent des significations différentes.
 
 ![fig 7](./assets/fig07.png)
@@ -169,22 +170,22 @@ Supposons une base d'individus, par exemple les animaux d'un zoo. En vue de suiv
 
 On pourra donc modéliser tout cela dans notre MCD de la manière suivante :
 
-![fig 09](./assets/fig09.png)
+![fig 08](./assets/fig08.png)
 
 ### Du MCD au MLD
 
 Au niveau du MLD, il n'y a rien de particulier à signaler – les règles exposées plus haut s'appliquent. Si la relation réflexive est de type « un à plusieurs », avec une cardinalité minimale de 1, cette relation prendra la forme d'une propriété supplémentaire dans la table, destinée à contenir l'ID de l'élément concerné. Par exemple, la relation « est le père de », qui entre dans ce cas de figure (un père peut avoir plusieurs enfants, mais un enfant ne peut avoir qu'un seul père) se manifestera par un champ code_père, dans lequel on entrera, le cas échéant, l'ID du père :
 
-![fig 10](./assets/fig10.png)
+![fig 09](./assets/fig09.png)
 
 
 Si, en revanche, la relation réflexive est de type « plusieurs à plusieurs », elle donnera lieu à une nouvelle table. Celle-ci comportera deux champs, chacun des deux contenant l'ID d'un des deux animaux susceptibles de cohabiter. Et, toujours aussi logiquement, cette table de jointure sera reliée au champ ID_animal de la table Animaux par un double lien.
 
-![fig 11](./assets/fig11.png)
+![fig 10](./assets/fig10.png)
 
-1. NB 1 : On peut très bien imaginer une situation où une relation serait à la fois réflexive et plurielle ! En plus de savoir qui est le parent de qui, on pourrait ainsi noter qui peut être mis dans la même cage que qui (certains individus ne peuvent pas se blairer, et se battent dès qu'ils en ont l'occasion). Dans ce cas, pas de problème, l'entité Animaux sera greffée de deux relations réflexives différentes (« est le parent de » et « peut cohabiter avec »).
+1. __NB 1 :__ On peut très bien imaginer une situation où une relation serait à la fois réflexive et plurielle ! En plus de savoir qui est le parent de qui, on pourrait ainsi noter qui peut être mis dans la même cage que qui (certains individus ne peuvent pas se blairer, et se battent dès qu'ils en ont l'occasion). Dans ce cas, pas de problème, l'entité Animaux sera greffée de deux relations réflexives différentes (« est le parent de » et « peut cohabiter avec »).
 
-2. NB 2 : Il serait en revanche tout à fait mal venu de créer deux relations, l'une « est le parent de » et l'autre « est l'enfant de ». Ce serait en quelque sorte un pléonasme, ces deux relations n'en faisant en réalité qu'une seule.
+2. __NB 2 :__ Il serait en revanche tout à fait mal venu de créer deux relations, l'une « est le parent de » et l'autre « est l'enfant de ». Ce serait en quelque sorte un pléonasme, ces deux relations n'en faisant en réalité qu'une seule.
 
 ## Relations avec attributs
 
@@ -204,7 +205,7 @@ Deuxième possibilité : j'intègre les quantités à la table des produits. Mai
 
 Je n'ose même pas imaginer créer plusieurs attributs (quantité 1, quantité 2, quantité 3, etc.) : que ce soit dans une table ou dans un autre, ce serait un flagrant délit de propriété à valeurs multiples, dont on a vu précédemment qu'il s'agissait d'une faute irrémédiable.
 
-Nous voilà donc bien avancés... En fait, toute la difficulté vient du fait que le nombre de produits de chaque sorte qui ont été commandés est une caractéristique liée à chaque commande. La solution s'impose d'elle-même : cette information doit donc figurer au cœur même de la relation qui unit les commandes aux produits. À chaque fois qu'une nouvelle commande porte sur un nouveau produit, on doit se demander : « en combien d'exemplaires ? ».
+Nous voilà donc bien avancés... En fait, toute la difficulté vient du fait que __le nombre de produits de chaque sorte qui ont été commandés est une caractéristique liée à chaque commande__. La solution s'impose d'elle-même : cette information doit donc figurer au cœur même de la relation qui unit les commandes aux produits. À chaque fois qu'une nouvelle commande porte sur un nouveau produit, on doit se demander : « en combien d'exemplaires ? ».
 
 L'information (la propriété) « Quantité commandée » n'est donc pas un attribut d'une des deux entités Commandes et Produits, mais comme un **attribut** de la relation qui les unit.
 
@@ -212,14 +213,14 @@ Ce que nous représenterons de la manière suivante :
 
 ![fig 12](./assets/fig12.png)
 
-**Remarque vraiment intelligente** : une relation ne peut posséder légitimement un attribut que si elle est de type « plusieurs à plusieurs ». Démonstration par l'absurde:
+**Remarque vraiment intelligente** : une relation ne peut posséder légitimement un attribut que si elle est de type « plusieurs à plusieurs ». __Démonstration par l'absurde__:
 imaginons qu'il ne puisse y avoir qu'un seul produit par commande. Dans ce cas, la quantité commandée serait unique pour chaque commande, et pourrait donc être un attribut de l'entité Commande.
 inversement, si chaque produit ne pouvait être commandé qu'une fois et une seule, on pourrait ajouter la quantité comme attribut de l'entité Produits
 Pour conclure, ajoutons que rien n'oblige une relation à posséder un seul attribut. Il est tout à fait possible qu'existent des relations avec deux, trois, quatre, etc. attributs.
 
 ### Passage au MLD
 
-Aucune difficulté : une relation avec attributs étant nécessairement une relation « plusieurs à plusieurs », elle donnera naissance, lors du passage au MLD, à une nouvelle table (de jointure). Tout simplement, les attributs de la relation deviendront des propriétés supplémentaires de la table de jointure (en plus des codes correspondant aux clés primaires des tables concernées).
+Aucune difficulté : une relation avec attributs étant nécessairement une relation « plusieurs à plusieurs », elle donnera naissance, lors du passage au MLD, à une nouvelle table (de jointure). Tout simplement, __les attributs de la relation deviendront des propriétés supplémentaires de la table de jointure__ (en plus des codes correspondant aux clés primaires des tables concernées).
 
 ## Relations de dimension supérieure à 2
 
