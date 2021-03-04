@@ -634,6 +634,47 @@ Voici les types de jointure que nous pouvons utiliser en SQL:
 * RIGHT
 * SELF
 
+### Continuation
+
+## Exercices
+
+### Exercice #1
+
+Soit la base de données suivante :
+
+* Départements :( DNO, DNOM, DIR, VILLE)
+* Employés : ( ENO, ENOM, PROF, DATEEMB, SAL, COMM, #DNO)
+
+Exprimez en SQL les requêtes suivantes:
+
+1. Donnez la liste des employés ayant une commission.
+2. Donnez les noms, emplois et salaires des employés par emploi croissant, et pour chaque emploi, par salaire décroissant.
+3. Donnez le salaire moyen des employés.
+4. Donnez le salaire moyen du département Production.
+5. Donnes les numéros de département et leur salaire maximum.
+6. Donnez les différentes professions et leur salaire moyen.
+7. Donnez le salaire moyen par profession le plus bas.
+8. Donnez le ou les emplois ayant le salaire moyen le plus bas, ainsi que ce salaire moyen.
+
+### Exercice #2
+
+Soit la base de données intitulée "gestion_projet" permettant de gérer les projets relatifs au développement de logiciels. Elle est décrite par la représentation textuelle simplifiée suivante :
+
+* Developpeur (NumDev, NomDev, AdrDev, EmailDev, TelDev)
+* Projet (NumProj, TitreProj, DateDeb, DateFin)
+* Logiciel (CodLog, NomLog, PrixLog, #NumProj)
+* Realisation (#NumProj, #NumDev)
+
+Ecrire les requêtes SQL permettant :
+
+1. D’afficher les noms et les prix des logiciels appartenant au projet ayant comme titre « gestion de stock », triés dans l’ordre décroissant des prix.
+2. D’afficher le total des prix des logiciels du projet numéro 10. Lors de l’affichage, le titre de la colonne sera « cours total du projet ».
+3. Afficher le nombre de développeurs qui ont participé au projet intitulé « gestion de stock »
+4. Afficher les projets qui ont plus que 5 logiciels.
+5. Les numéros et noms des développeurs qui ont participés dans tout les projets.
+6. Les numéros de projets dans lesquelles tous les développeurs y participent dans sa réalisation.
+
+
 
 [VEUILLEZ VOIR AIDE MEMOIRE](mysql-aid-memoire-sql.pdf)
 [Lien utilie](https://sql.sh/cours)
