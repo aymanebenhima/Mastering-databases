@@ -634,7 +634,263 @@ Voici les types de jointure que nous pouvons utiliser en SQL:
 * RIGHT
 * SELF
 
-### Continuation
+```
+Pendant ce cours, nous allons travailler sur ces deux tables
+Table - Employes                                      
++----+---------+-----+---------+------------+------+
+| Id | Nom     | Age | Salaire | Profession | Dep  |
++----+---------+-----+---------+------------+------+
+|  1 | Rajae   |  22 | 6000.00 | Assistante |    2 |
+|  2 | Mohamed |  24 | 8000.40 | Directeur  |    1 |
+|  3 | Mahamat |  29 | 6000.00 | Directeur  |    3 |
+|  4 | Mounia  |  32 | 7000.00 | Assistante |    4 |
+|  5 | Ziad    |  21 | 9000.00 | Ingenieur  |    1 |
+|  7 | Anas    |  23 | 9000.00 | Ingenieur  | NULL |
++----+---------+-----+---------+------------+------+ 
+Table - Departement
++--------+--------------+
+| Id_dep | Nom_dep      |
++--------+--------------+
+|      1 | Informatique |
+|      2 | RH           |
+|      3 | Vente        |
+|      4 | Strategies   |
++--------+--------------+
+```
+
+### CROSS JOIN
+
+Ce type de **JOIN** renvoie le produit cartésien des lignes des tables de la jointure. Elle renverra un jeu de résultats des enregistrements combinant chaque ligne de la première table avec chaque ligne de la deuxième table.
+```sql
+SELECT liste-colonnes
+FROM
+table1 CROSS JOIN table2;
+```
+
+Exemple:
+```sql
+SELECT * FROM Departement CROSS JOIN Employes;
+```
+```
+Cette requête produira le jeu de résultats suivant :
+
++--------+--------------+----+---------+-----+---------+------------+------+
+| Id_dep | Nom_dep      | Id | Nom     | Age | Salaire | Profession | Dep  |
++--------+--------------+----+---------+-----+---------+------------+------+
+|      1 | Informatique |  1 | Rajae   |  22 | 6000.00 | Assistante |    2 |
+|      2 | RH           |  1 | Rajae   |  22 | 6000.00 | Assistante |    2 |
+|      3 | Vente        |  1 | Rajae   |  22 | 6000.00 | Assistante |    2 |
+|      4 | Strategies   |  1 | Rajae   |  22 | 6000.00 | Assistante |    2 |
+|      1 | Informatique |  2 | Mohamed |  24 | 8000.40 | Directeur  |    1 |
+|      2 | RH           |  2 | Mohamed |  24 | 8000.40 | Directeur  |    1 |
+|      3 | Vente        |  2 | Mohamed |  24 | 8000.40 | Directeur  |    1 |
+|      4 | Strategies   |  2 | Mohamed |  24 | 8000.40 | Directeur  |    1 |
+|      1 | Informatique |  3 | Mahamat |  29 | 6000.00 | Directeur  |    3 |
+|      2 | RH           |  3 | Mahamat |  29 | 6000.00 | Directeur  |    3 |
+|      3 | Vente        |  3 | Mahamat |  29 | 6000.00 | Directeur  |    3 |
+|      4 | Strategies   |  3 | Mahamat |  29 | 6000.00 | Directeur  |    3 |
+|      1 | Informatique |  4 | Mounia  |  32 | 7000.00 | Assistante |    4 |
+|      2 | RH           |  4 | Mounia  |  32 | 7000.00 | Assistante |    4 |
+|      3 | Vente        |  4 | Mounia  |  32 | 7000.00 | Assistante |    4 |
+|      4 | Strategies   |  4 | Mounia  |  32 | 7000.00 | Assistante |    4 |
+|      1 | Informatique |  5 | Ziad    |  21 | 9000.00 | Ingenieur  |    1 |
+|      2 | RH           |  5 | Ziad    |  21 | 9000.00 | Ingenieur  |    1 |
+|      3 | Vente        |  5 | Ziad    |  21 | 9000.00 | Ingenieur  |    1 |
+|      4 | Strategies   |  5 | Ziad    |  21 | 9000.00 | Ingenieur  |    1 |
+|      1 | Informatique |  7 | Anas    |  23 | 9000.00 | Ingenieur  | NULL |
+|      2 | RH           |  7 | Anas    |  23 | 9000.00 | Ingenieur  | NULL |
+|      3 | Vente        |  7 | Anas    |  23 | 9000.00 | Ingenieur  | NULL |
+|      4 | Strategies   |  7 | Anas    |  23 | 9000.00 | Ingenieur  | NULL |
++--------+--------------+----+---------+-----+---------+------------+------+
+Comme vous pouvez le constater, cette jointure renvoie le produit cartésien de tous les enregistrements présents dans les deux tables.
+```
+
+### INNER JOIN
+
+La jointure la plus importante et la plus utilisée est la jointure **INNER**. Elle est également appelée jointure d'égalité.
+
+**INNER JOIN** crée un jeu de résultats en combinant les valeurs de colonne de deux tables **(table1 et table2)** en fonction du prédicat de jointure. La requête compare chaque ligne de **table1(A)** avec chaque ligne de **table2(B)** pour rechercher toutes les paires de lignes satisfaisant le prédicat de jointure. Lorsque le prédicat de jointure est satisfait, les valeurs de colonne de chaque paire de lignes correspondante de **A** et de **B** sont combinées dans une ligne de résultat.
+
+```sql
+SELECT liste-colonnes
+FROM
+table1 INNER JOIN table2
+ON table1.champ_commun = table1.champ_commun;
+```
+
+La plupart des gens utilisent cette syntaxe à la place de la première syntaxe
+
+```sql
+SELECT liste-colonnes
+FROM
+table1, table2
+WHERE table1.champ_commun = table1.champ_commun;
+```
+
+Exemple:
+```sql
+SELECT * FROM Departement AS D INNER JOIN Employes AS E ON D.Id_dep=E.Dep;
+```
+```
+Cette requête produira le jeu de résultats suivant :
+
++--------+--------------+----+---------+-----+---------+------------+------+
+| Id_dep | Nom_dep      | Id | Nom     | Age | Salaire | Profession | Dep  |
++--------+--------------+----+---------+-----+---------+------------+------+
+|      2 | RH           |  1 | Rajae   |  25 | 6000.00 | Assistante |    2 |
+|      1 | Informatique |  2 | Mohamed |  24 | 8000.40 | Directeur  |    1 |
+|      3 | Vente        |  3 | Mahamat |  29 | 6000.00 | Directeur  |    3 |
+|      4 | Strategies   |  4 | Mounia  |  32 | 7000.00 | Assistante |    4 |
+|      1 | Informatique |  5 | Ziad    |  21 | 9000.00 | Ingenieur  |    1 |
++--------+--------------+----+---------+-----+---------+------------+------+
+```
+
+### LEFT JOIN
+
+**LEFT JOIN** renvoie toutes les lignes de la table de gauche, même s'il n'y a pas de correspondance dans la table de droite. Cela signifie que si la clause **ON** correspond à 0 (zéro) enregistrements dans la table de droite; la jointure retournera toujours une ligne dans le résultat, mais avec **NULL** dans chaque colonne de la table de droite.
+
+Cela signifie qu'une jointure gauche renvoie toutes les valeurs de la table de gauche, ainsi que les valeurs correspondantes de la table de droite ou NULL en cas d'absence de prédicat de jointure correspondant.
+```sql
+SELECT liste-colonnes
+FROM
+table1 LEFT JOIN table2
+ON table1.champ_commun = table1.champ_commun;
+```
+
+Exemple:
+```sql
+SELECT * FROM Employes AS E LEFT JOIN Departement as D ON D.Id_dep=E.Dep;
+```
+```
+Cette requête produira le jeu de résultats suivant :
++----+---------+-----+---------+------------+------+--------+--------------+
+| Id | Nom     | Age | Salaire | Profession | Dep  | Id_dep | Nom_dep      |
++----+---------+-----+---------+------------+------+--------+--------------+
+|  2 | Mohamed |  24 | 8000.40 | Directeur  |    1 |      1 | Informatique |
+|  5 | Ziad    |  21 | 9000.00 | Ingenieur  |    1 |      1 | Informatique |
+|  1 | Rajae   |  22 | 6000.00 | Assistante |    2 |      2 | RH           |
+|  3 | Mahamat |  29 | 6000.00 | Directeur  |    3 |      3 | Vente        |
+|  4 | Mounia  |  32 | 7000.00 | Assistante |    4 |      4 | Strategies   |
+|  7 | Anas    |  23 | 9000.00 | Ingenieur  | NULL |   NULL | NULL         |
++----+---------+-----+---------+------------+------+--------+--------------+
+```
+
+### RIGHT JOIN
+
+**RIGHT JOIN** renvoie toutes les lignes de la table de droite, même s'il n'y a pas de correspondance dans la table de gauche. Cela signifie que si la clause **ON** correspond à 0 (zéro) enregistrements dans la table de gauche; la jointure retournera toujours une ligne dans le résultat, mais avec **NULL** dans chaque colonne de la table de gauche.
+```sql
+SELECT liste-colonnes
+FROM
+table1 RIGHT JOIN table2
+ON table1.champ_commun = table1.champ_commun;
+```
+
+Exemple:
+```sql
+SELECT * FROM Employes AS E RIGHT JOIN Departement as D ON D.Id_dep=E.Dep;
+```
+```
+Cette requête produira le jeu de résultats suivant :
+
++------+---------+------+---------+------------+------+--------+--------------+
+| Id   | Nom     | Age  | Salaire | Profession | Dep  | Id_dep | Nom_dep      |
++------+---------+------+---------+------------+------+--------+--------------+
+|    1 | Rajae   |   22 | 6000.00 | Assistante |    2 |      2 | RH           |
+|    2 | Mohamed |   24 | 8000.40 | Directeur  |    1 |      1 | Informatique |
+|    3 | Mahamat |   29 | 6000.00 | Directeur  |    3 |      3 | Vente        |
+|    4 | Mounia  |   32 | 7000.00 | Assistante |    4 |      4 | Strategies   |
+|    5 | Ziad    |   21 | 9000.00 | Ingenieur  |    1 |      1 | Informatique |
++------+---------+------+---------+------------+------+--------+--------------+ 
+```
+
+### SELF JOIN
+
+**SELF JOIN** est utilisée pour joindre une table à elle-même comme si la table était deux tables; renommer temporairement au moins une table dans l'instruction SQL.
+```sql
+SELECT * FROM Employes AS T1, Employes AS T2 WHERE T1.Salaire>T2.Salaire;
+```
+```
+Cette requête produira le jeu de résultats suivant :
+
++----+---------+-----+---------+------------+------+----+---------+-----+---------+------------+------+
+| Id | Nom     | Age | Salaire | Profession | Dep  | Id | Nom     | Age | Salaire | Profession | Dep  |
++----+---------+-----+---------+------------+------+----+---------+-----+---------+------------+------+
+|  2 | Mohamed |  24 | 8000.40 | Directeur  |    1 |  1 | Rajae   |  22 | 6000.00 | Assistante |    2 |
+|  4 | Mounia  |  32 | 7000.00 | Assistante |    4 |  1 | Rajae   |  22 | 6000.00 | Assistante |    2 |
+|  5 | Ziad    |  21 | 9000.00 | Ingenieur  |    1 |  1 | Rajae   |  22 | 6000.00 | Assistante |    2 |
+|  7 | Anas    |  23 | 9000.00 | Ingenieur  | NULL |  1 | Rajae   |  22 | 6000.00 | Assistante |    2 |
+|  5 | Ziad    |  21 | 9000.00 | Ingenieur  |    1 |  2 | Mohamed |  24 | 8000.40 | Directeur  |    1 |
+|  7 | Anas    |  23 | 9000.00 | Ingenieur  | NULL |  2 | Mohamed |  24 | 8000.40 | Directeur  |    1 |
+|  2 | Mohamed |  24 | 8000.40 | Directeur  |    1 |  3 | Mahamat |  29 | 6000.00 | Directeur  |    3 |
+|  4 | Mounia  |  32 | 7000.00 | Assistante |    4 |  3 | Mahamat |  29 | 6000.00 | Directeur  |    3 |
+|  5 | Ziad    |  21 | 9000.00 | Ingenieur  |    1 |  3 | Mahamat |  29 | 6000.00 | Directeur  |    3 |
+|  7 | Anas    |  23 | 9000.00 | Ingenieur  | NULL |  3 | Mahamat |  29 | 6000.00 | Directeur  |    3 |
+|  2 | Mohamed |  24 | 8000.40 | Directeur  |    1 |  4 | Mounia  |  32 | 7000.00 | Assistante |    4 |
+|  5 | Ziad    |  21 | 9000.00 | Ingenieur  |    1 |  4 | Mounia  |  32 | 7000.00 | Assistante |    4 |
+|  7 | Anas    |  23 | 9000.00 | Ingenieur  | NULL |  4 | Mounia  |  32 | 7000.00 | Assistante |    4 |
++----+---------+-----+---------+------------+------+----+---------+-----+---------+------------+------+
+```
+
+## FONCTIONS D'AGRÉGATION EN SQL - SUM, COUNT, AVG, MIN ET MAX
+
+La fonction d'agrégation SQL est utilisée pour effectuer les calculs sur plusieurs lignes d'une seule colonne d'une table. Elle retourne une valeur unique.
+
+Elle est également utilisée pour résumer les données.
+
+La norme ISO définit cinq fonctions d'agrégation, à savoir:
+
+* COUNT
+* SUM
+* AVG
+* MIN
+* MAX
+
+### SUM
+La fonction **SUM** renvoie la somme de toutes les valeurs de la colonne spécifiée. SUM fonctionne uniquement sur les champs numériques.
+```sql
+SUM( [ALL|DISTINCT] nom_colonne ) 
+```
+
+Exemple: La requête suivante renvoie la somme des salaires,
+```sql
+SELECT SUM(Salaire) FROM Employes;
+```
+```
+Cette requête produira le jeu de résultats suivant :
+
++--------------+
+| SUM(Salaire) |
++--------------+
+|     43500.40 |
++--------------+
+```
+
+### COUNT
+La fonction **COUNT** est utilisée pour compter le nombre de lignes dans une table de base de données. Il peut fonctionner sur les types de données numériques et non numériques.
+
+La fonction **COUNT** utilise **COUNT(\*)** qui renvoie le nombre de toutes les lignes d'une table spécifiée. **COUNT(*)** considère les doublons et Null.
+```sql
+COUNT(*)  
+// ou 
+COUNT( [ALL|DISTINCT] nom_colonne )
+```
+Exemple: La requête suivante comptera les enregistrements dans la table Employes
+```sql
+SELECT count(*) FROM Employes;
+```
+```
+Cette requête produira le jeu de résultats suivant :
+
++----------+
+| count(*) |
++----------+
+|        6 |
++----------+
+```
+
+### AVG
+### MIN
+### MAX
 
 ## Exercices
 
