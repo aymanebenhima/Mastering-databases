@@ -70,6 +70,6 @@ Des modifications (avenants) aux commandes clients peuvent être apportées apr�
 
 La direction commerciale se charge aussi du suivi de la facturation. Les coûts réels sont comptabilisés par commande reçue, avec une gestion du nombre d’heures passées (heures productives transmises par les usines) et de la valeur (prix d’achat) des matières premières ou pièces semi-finies en provenance de fournisseurs divers (fournie par le service de gestion du stock). La facture est alors transmise à l’usine de montage qui gère aussi la livraison de la commande.
 
-1. Donner le diagramme des cas d’utilisation de ce système.
-2. Donner diagramme de classes de ce système.
-3. Décrire le scénario « Traitement d’une commande » par un diagramme de séquence.
+1. Donner le diagramme des cas d’utilisation de ce système. [correction](./assets/solution/c5_001.jpg)
+2. Donner diagramme de classes de ce système. [correction](./assets/solution/c5_002.jpg)
+3. Décrire le scénario « Traitement d’une commande » par un diagramme de séquence. [correction](./assets/solution/c5_003.jpg)
