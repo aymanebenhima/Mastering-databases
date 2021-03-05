@@ -889,8 +889,114 @@ Cette requête produira le jeu de résultats suivant :
 ```
 
 ### AVG
+La fonction **AVG** renvoie la moyenne des valeurs d'une colonne spécifiée. Tout comme la fonction SUM, elle ne fonctionne que sur les types de données numériques.
+```sql
+AVG( [ALL|DISTINCT] nom_colonne ) 
+```
+Exemple: La requête suivante renvoie le salaire moyen de la table Employes
+```sql
+SELECT AVG(Salaire) FROM Employes;
+```
+```
+Cette requête produira le jeu de résultats suivant :
+
++--------------+
+| AVG(Salaire) |
++--------------+
+|  7250.066667 |
++--------------+
+```
+
 ### MIN
+La fonction **MIN** est utilisée pour déterminer la plus petite valeur de toutes les valeurs sélectionnées d'une colonne.
+```sql
+MIN( [ALL|DISTINCT] nom_colonne )
+```
+Exemple: La requête suivante renvoie le salaire minimum de la table Employes
+```sql
+SELECT MIN(Salaire) FROM Employes;
+```
+```
+Cette requête produira le jeu de résultats suivant :
+
++--------------+
+| MIN(Salaire) |
++--------------+
+|      6000.00 |
++--------------+
+```
+
 ### MAX
+Comme son nom l'indique, la fonction **MAX** est l'opposé de la fonction **MIN**. Elle renvoie la plus grande valeur de toutes les valeurs sélectionnées d'une colonne.
+```sql
+MAX( [ALL|DISTINCT] nom_colonne ) 
+```
+Exemple: La requête suivante renvoie le salaire maximum de la table Employes
+```sql
+SELECT MAX(Salaire) FROM Employes;
+```
+```
+Cette requête produira le jeu de résultats suivant :
+
++--------------+
+| MAX(Salaire) |
++--------------+
+|      9000.00 |
++--------------+
+```
+
+## ORGANISER DES DONNÉES IDENTIQUES EN GROUPES - GROUP BY ET HAVING
+
+### Clause GROUP BY
+La clause **GROUP BY** en SQL permet d’organiser des données identiques en groupes à l’aide de certaines fonctions. C'est-à-dire si une colonne particulière a les mêmes valeurs dans différentes lignes, elle organisera ces lignes dans un groupe.
+
+* La clause **GROUP BY** est utilisée avec l'instruction **SELECT**.
+* Dans la requête, la clause **GROUP BY** est placée après la clause **WHERE**.
+* Dans la requête, la clause **GROUP BY** est placée avant la clause ORDER BY si elle est utilisée.
+
+Vous pouvez également utiliser certaines fonctions d'agrégation telles que **COUNT**, **SUM**, **MIN**, **MAX**, **AVG**, etc. sur la colonne groupée.
+```sql
+SELECT colonne1, colonne2, ... colonneN,   
+fonction_agregation (nom_colonne)  
+FROM tables  
+[WHERE conditions]  
+GROUP BY colonne1, colonne2, ... colonneN;
+```
+**colonne1**, **colonne2**, ... **colonneN** - spécifie les colonnes(ou expressions) qui ne sont pas encapsulées dans une fonction d'agrégation et doivent être incluses dans la clause **GROUP BY**.
+
+**fonction_agregation (nom_colonne)** - Nom de la fonction d'agrégation utilisée, par exemple, **SUM()**, **AVG ()**...
+
+**WHERE conditions** - C'est optionnel. Elle spécifie les conditions qui doivent être remplies pour que les enregistrements soient sélectionnés.
+
+### Clause HAVING
+Nous savons que la clause **WHERE** est utilisée pour imposer des conditions aux colonnes, mais que se passe-t-il si nous voulons imposer des conditions aux groupes?
+
+C'est ici que la clause **HAVING** entre en vigueur. Nous pouvons utiliser la clause **HAVING** pour poser des conditions afin de décider quel groupe fera partie de l'ensemble des résultats finaux. De plus, nous ne pouvons pas utiliser les fonctions d'agrégation telles que **SUM()**, **COUNT()**, etc. avec la clause **WHERE**. Nous devons donc utiliser la clause **HAVING** si nous voulons utiliser l'une de ces fonctions dans les conditions.
+```sql
+SELECT colonne1, colonne2, ... colonneN,   
+fonction_agregation (nom_colonne)  
+FROM tables  
+[WHERE conditions]  
+GROUP BY colonne1[, colonne2, ... colonneN]
+HAVING condition ;
+```
+
+## LES SOUS-REQUÊTES
+
+Une sous-requête, également appelée requête imbriquée ou sous-sélection, est une requête **SELECT** intégrée à la clause **WHERE** ou **HAVING** d'une autre requête SQL. Les données renvoyées par la sous-requête sont utilisées par l'instruction externe de la même manière qu'une valeur littérale serait utilisée.
+
+Les sous-requêtes constituent un moyen simple et efficace de gérer les requêtes qui dépendent des résultats d'une autre requête. Elles sont presque identiques aux instructions **SELECT** normales, mais il existe peu de restrictions. Les plus importantes sont énumérées ci-dessous:
+
+* Une sous-requête doit toujours apparaître entre parenthèses.
+* Une sous-requête doit renvoyer une seule colonne. Cela signifie que vous ne pouvez pas utiliser **SELECT \*** dans une sous-requête à moins que la table à laquelle vous faites référence ne comporte qu'une seule colonne. Vous pouvez utiliser une sous-requête qui renvoie plusieurs colonnes si le but est la comparaison de lignes.
+* Vous ne pouvez utiliser que des sous-requêtes renvoyant plusieurs lignes avec des opérateurs de valeurs multiples, tels que l'opérateur **IN** ou **NOT IN**.
+* Une clause **ORDER BY** ne peut pas être utilisée dans une sous-requête, bien que la requête principale puisse utiliser un ORDER BY. La clause GROUP BY peut être utilisée pour exécuter la même fonction que **ORDER BY** dans une sous-requête.
+* Une sous-requête ne peut pas être une **UNION**. Une seule instruction **SELECT** est autorisée.
+Les sous-requêtes sont le plus souvent utilisées avec l'instruction **SELECT**. Toutefois, vous pouvez également les utiliser dans une instruction **INSERT**, **UPDATE** ou **DELETE** ou dans une autre sous-requête.
+
+### Sous-requêtes avec - SELECT -
+Les sous-requêtes sont le plus souvent utilisées avec l'instruction **SELECT**. La syntaxe de base est la suivante :
+
 
 ## Exercices
 
