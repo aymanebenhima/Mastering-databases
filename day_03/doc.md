@@ -1010,43 +1010,13 @@ Soit la base de données suivante :
 Exprimez en SQL les requêtes suivantes:
 
 1. Donnez la liste des employés ayant une commission.
-```sql
-SELECT * FROM Employes WHERE COMM NOT NULL
-```
 2. Donnez les noms, emplois et salaires des employés par emploi croissant, et pour chaque emploi, par salaire décroissant.
-```sql
-SELECT ENOM,PROF, SAL FROM Employes ORDER BY PROF ASC, SAL DESC
-```
 3. Donnez le salaire moyen des employés.
-```sql
-SELECT AVG(SAL) FROM Employes 
-```
 4. Donnez le salaire moyen du département Production.
-```sql
-SELECT AVG(E.SAL) FROM Employes E INNER JOIN Departement D
-ON E.DNO=D.DNO WHERE D.DNOM="production"
-```
 5. Donnes les numéros de département et leur salaire maximum.
-```sql
-SELECT DNO, MAX(SAL) FROM Employes GROUP BY DNO 
-```
 6. Donnez les différentes professions et leur salaire moyen.
-```sql
-SELECT PROF, MAX(SAL) FROM Employes GROUP BY PROF 
-```
 7. Donnez le salaire moyen par profession le plus bas.
-```sql
-SELECT PROF, AVG(SAL) as moy FROM Employes 
-GROUP BY PROF 
-ORDER BY moy ASC
-LIMIT 1 
-```
 8. Donnez le ou les emplois ayant le salaire moyen le plus bas, ainsi que ce salaire moyen.
-```sql
-SELECT PROF FROM Employes GROUP BY PROF
-HAVING AVG(SAL)=(SELECT AVG(SAL) as moy FROM Employes
-GROUP BY PROF ORDER BY moy ASC LIMIT 1) 
-```
 
 ### Exercice #2
 
@@ -1060,39 +1030,11 @@ Soit la base de données intitulée "gestion_projet" permettant de gérer les pr
 Ecrire les requêtes SQL permettant :
 
 1. D’afficher les noms et les prix des logiciels appartenant au projet ayant comme titre « gestion de stock », triés dans l’ordre décroissant des prix.
-```sql
-SELECT L.NomLog, L.PrixLog FROM Logiciel L INNER JOIN Projet P
-ON L.NumProj=P.NumProj WHERE P.TitreProj="gestion␣de␣stock"
-ORDER BY L.PrixLog DESC
-```
 2. D’afficher le total des prix des logiciels du projet numéro 10. Lors de l’affichage, le titre de la colonne sera « cours total du projet ».
-```sql
-SELECT SUM(PrixLog) as "cout␣total␣du␣projet" FROM Logiciel WHERE NumPRoj=10 
-```
 3. Afficher le nombre de développeurs qui ont participé au projet intitulé « gestion de stock »
-```sql
-SELECT count(*) FROM Developpeur D INNER JOIN Realisation R
-ON D.NumDev=R.NumDev INNER JOIN Projet P ON P.NumProj=R.NumProj 
-```
 4. Afficher les projets qui ont plus que 5 logiciels.
-```sql
-SELECT NumProj, TitreProj FROM PRojet P INNER JOIN Logiciel L ON P.NumProj=L.NumProj 
-GROUP BY NumProj, TitreProj 
-HAVING count(*)>5
-```
 5. Les numéros et noms des développeurs qui ont participés dans tout les projets.
-```sql
-SELECT NumDev, NomDev FROM Developpeur D INNER JOIN Realisation R ON D.NumDev=R.NumDev
-GROUP BY NumDev, NomDev
-HAVING count(*)=(SELECT COUNT(*) FROM Projet) 
-```
 6. Les numéros de projets dans lesquelles tous les développeurs y participent dans sa réalisation.
-```sql
-SELECT NumProj, TitreProj FROM Projet P INNER JOIN Realisation R ON P.NumProj=R.NumProj
-GROUP BY NumProj, TitreProj
-HAVING count(*)=(SELECT COUNT(*) FROM Developpeur) 
-```
-
 
 [VEUILLEZ VOIR AIDE MEMOIRE](mysql-aid-memoire-sql.pdf)
 [Lien utilie](https://sql.sh/cours)

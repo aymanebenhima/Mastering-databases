@@ -255,7 +255,3 @@ On se place dans quatre cas successifs, de complexité croissante :
 
 Etablir le MCD et le MLD adéquats dans les quatre cas.
 
-## Correction:
-
-[Correction day01 sur draw.io](https://drive.google.com/file/d/1TbUpz6fi9Nd0ydmfag0o3RKW11Joz6_f/view?usp=sharing)
-
